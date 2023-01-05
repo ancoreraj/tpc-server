@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
+    "razorpay": "^2.8.4",
     "sib-api-v3-sdk": "^8.5.0"
   }
 }
