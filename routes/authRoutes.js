@@ -6,7 +6,7 @@ const {
     getUserController,
 } = require('../controllers/authController')
 
-const ensureAuth = require("../middleware/requireLoginJwt");
+const ensureAuth = require("../utils/requireLoginJwt");
 
 const router = express.Router();
 

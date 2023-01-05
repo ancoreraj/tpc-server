@@ -10,7 +10,7 @@ dotenv.config({ path: "./.env" });
 
 // Enabling cross origin request
 const corsOptions = {
-    origin: ["http://localhost:3000", "https://example.com/"],
+    origin: ["http://localhost:3002", "https://example.com/"],
     optionsSuccessStatus: 200
 }
 
@@ -39,8 +39,11 @@ mongoose.connection.on("error", (err) => {
 });
 
 require("./models/UserModel");
+require("./models/OrderModel");
 
+app.use("/", require("./routes/indexRoutes"));
 app.use("/", require("./routes/authRoutes"));
+app.use("/", require("./routes/orderRoutes"));
 
 const PORT = process.env.PORT || 5000;
 

@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/UserModel");
-const StateModel = require("../models/StateModel");
+const sendEmail = require("./../utils/email/sendInBlue")
+const { verifyAccountTemplate } = require("./../utils/email/templates")
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -31,6 +32,14 @@ const registerController = async (req, res) => {
                 return res.status(500).json({ error: "Mongo Error" })
             }
         });
+
+        const emailOptions = {
+            email,
+            subject: `Verify your email`,
+            htmlContent: verifyAccountTemplate(newUser.id)
+        }
+
+        await sendEmail(emailOptions);
         res.status(201).json({ message: "Registered!" });
 
     } catch (err) {
@@ -54,9 +63,10 @@ const loginController = async (req, res) => {
 
         if (passwordDoMatch) {
             const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-            return res.json({
+            return res.status(200).json({
                 message: "User successfully signin",
-                token,
+                user: savedUser,
+                token,  
             });
         } else {
             return res.status(422).json({ error: "Invalid Email or password" });
@@ -70,7 +80,6 @@ const loginController = async (req, res) => {
 const getUserController = (req, res) => {
     return res.status(200).json(req.user);
 }
-
 
 module.exports = {
     registerController,
