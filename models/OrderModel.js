@@ -44,6 +44,12 @@ const orderSchema = new mongoose.Schema({
     pincode: {
         type: Number,
         required: true,
+    },
+    razorpay_order_id: {
+        type: String,
+    },
+    razorpay_payment_id: {
+        type: String,
     }
 },
     {
