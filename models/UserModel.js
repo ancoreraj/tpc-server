@@ -21,7 +21,17 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
         default: []
-    }]
+    }],
+    isFreelancer: {
+        type: Boolean,
+        default: false
+    },
+    contactNo: {
+        type: String,
+    },
+    category: {
+        type: String,
+    }
 },
     {
         timestamps: true,
