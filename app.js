@@ -43,6 +43,7 @@ require("./models/OrderModel");
 app.use("/", require("./routes/indexRoutes"));
 app.use("/", require("./routes/authRoutes"));
 app.use("/", require("./routes/orderRoutes"));
+app.use("/", require("./routes/freelanceRoutes"));
 
 const PORT = process.env.PORT || 5000;
 

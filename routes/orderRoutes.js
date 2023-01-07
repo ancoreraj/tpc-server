@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 var crypto = require("crypto");
 
-const { instance } = require('./../utils/razorpay')
 const OrderModel = require("../models/OrderModel");
-const { CATEGORY } = require("./../utils/constants")
+const { instance } = require('./../utils/razorpay');
+const { CATEGORY } = require("./../utils/constants");
+const sendEmail = require("./../utils/email/sendInBlue")
+const { orderPlacedUserTemplate, orderRecievedTemplate } = require("./../utils/email/templates")
 
 const ensureAuth = require("../utils/requireLoginJwt");
 
@@ -28,7 +30,6 @@ router.post('/create-order', ensureAuth, async (req, res) => {
             receipt: "order_rcptid_11"
         };
 
-        console.log(options);
         const razorpayOrder = await instance.orders.create(options);
 
         res.status(200).json({ message: 'Ok', razorpayOrder, orderId: newOrder._id });
@@ -41,23 +42,43 @@ router.post('/payment-verification', async (req, res) => {
     const {orderId} = req.query
     const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body
     const body = razorpay_order_id + "|" + razorpay_payment_id;
-    console.log(orderId, razorpay_order_id, razorpay_payment_id)
 
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_API_SECRET)
         .update(body.toString())
         .digest('hex');
-    console.log("sig received ", razorpay_signature);
-    console.log("sig generated ", expectedSignature);
     
     const isAuthentic = expectedSignature === razorpay_signature;
-    const order = await OrderModel.findById(orderId);
+    const order = await OrderModel.findById(orderId).populate('orderedBy');
     if(isAuthentic){
         order.razorpay_order_id = razorpay_order_id;
         order.razorpay_payment_id = razorpay_payment_id;
+        order.isPaid = true;
         await order.save();
 
+        const userTemplateBody = {
+            name: order.name,
+            title: order.title,
+            orderId: orderId,
+            price: order.price
+        }
+        const emailOptionsUser = {
+            email: order.orderedBy.email,
+            subject: 'Order Placed | The Project Complete',
+            htmlContent: orderPlacedUserTemplate(userTemplateBody)
+        }
+
+        await sendEmail(emailOptionsUser);
+
+        const emailOptionsAdmin = {
+            email: 'ankur.jar123@gmail.com',
+            subject: 'The Project Complete | New Order Recieved',
+            htmlContent: orderRecievedTemplate(order)
+        }
+
+        await sendEmail(emailOptionsAdmin);
+
         res.redirect(
-            `http://localhost:3000/`
+            `http://localhost:3000/?orderPlaced=true`
         );
     }else {
         res.status(400).json({

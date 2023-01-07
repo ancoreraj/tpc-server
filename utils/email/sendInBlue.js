@@ -7,23 +7,33 @@ const tranEmailApi = new Sib.TransactionalEmailsApi()
 
 const sender = {
     email: 'ancore.nita@gmail.com',
-    name: 'Ankur Raj',
+    name: 'The Project Complete',
 }
 
-const sendEmail = ({email, subject, htmlContent}) => {
-    tranEmailApi
-        .sendTransacEmail({
+const sendEmail = async ({email, subject, htmlContent}) => {
+    try{
+        const data = await tranEmailApi.sendTransacEmail({
             sender,
             to: [{email}],
             subject,
             htmlContent,
-        })
-        .then(data => {
-            console.log(data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        });
+    }catch(err){
+        console.log(err)
+    }
+    // tranEmailApi
+    //     .sendTransacEmail({
+    //         sender,
+    //         to: [{email}],
+    //         subject,
+    //         htmlContent,
+    //     })
+    //     .then(data => {
+    //         console.log(data)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
 }
 
 module.exports = sendEmail
