@@ -7,6 +7,7 @@ const { verifyAccountTemplate } = require("./../utils/email/templates")
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+
 const registerController = async (req, res) => {
     try {
         const { email, password } = req.body;
