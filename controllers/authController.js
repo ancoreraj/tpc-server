@@ -61,7 +61,7 @@ const loginController = async (req, res) => {
 
         const passwordDoMatch = await bcrypt.compare(password, savedUser.password)
 
-        if (passwordDoMatch) {
+        if (passwordDoMatch && savedUser.isVerified) {
             const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
             return res.status(200).json({
                 message: "User successfully signin",

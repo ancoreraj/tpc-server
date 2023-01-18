@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+    },
+    upiId: {
+        type: String
+    },
+    aadharCard: {
+        type: String
     }
 },
     {
