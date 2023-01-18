@@ -78,7 +78,7 @@ router.post('/payment-verification', async (req, res) => {
         await sendEmail(emailOptionsAdmin);
 
         res.redirect(
-            `http://localhost:3000/?orderPlaced=true`
+            `${process.env.CLIENT_URL}/?orderPlaced=true`
         );
     }else {
         res.status(400).json({

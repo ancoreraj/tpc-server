@@ -1,6 +1,6 @@
 
 const verifyAccountTemplate = (id) => {
-    const link = `http://localhost:5000/verify-account/${id}`
+    const link = `${process.env.SERVER_URL}/verify-account/${id}`
     const html = `<p>Click this link to verify your account ${link}</p>`
 
     return html;
