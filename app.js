@@ -12,7 +12,6 @@ dotenv.config({ path: "./.env" });
 app.use(cors());
 
 // Enabling pre-flight reqeust across 
-app.options('*', cors(corsOptions));
 
 //Body parser
 app.use(express.urlencoded({ extended: false }));
