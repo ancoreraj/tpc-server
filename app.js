@@ -8,12 +8,8 @@ const morgan = require("morgan");
 //Importing config files
 dotenv.config({ path: "./.env" });
 // Enabling cross origin request
-const corsOptions = {
-    origin: ["http://localhost:3000", "https://example.com/"],
-    optionsSuccessStatus: 200
-}
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Enabling pre-flight reqeust across 
 app.options('*', cors(corsOptions));
