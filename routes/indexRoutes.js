@@ -32,4 +32,8 @@ router.post('/contact-us', async (req, res) => {
     res.status(201).json({ message: "Mail Recieved!" });
 })
 
+router.get('/test', (req, res)=>{
+    res.send('Server is runnning');
+})
+
 module.exports = router;
