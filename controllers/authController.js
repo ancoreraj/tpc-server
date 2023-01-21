@@ -35,7 +35,7 @@ const registerController = async (req, res) => {
 
         const emailOptions = {
             email,
-            subject: `Verify your email`,
+            subject: `The Project Complete | Please Verify Your Email`,
             htmlContent: verifyAccountTemplate(newUser.id)
         }
 

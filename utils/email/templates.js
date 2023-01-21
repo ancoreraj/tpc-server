@@ -1,7 +1,24 @@
 
 const verifyAccountTemplate = (id) => {
     const link = `${process.env.SERVER_URL}/verify-account/${id}`
-    const html = `<p>Click this link to verify your account ${link}</p>`
+    const html = `<div>
+    <div>Dear User,</div>
+    
+    <div>Thank you for signing up with us! In order to complete your registration and start using our services, we need you to verify your account.
+
+    Please click the link below to confirm your email address and activate your account:</div>
+
+    <div><a href=${link}>Click Here</a></div>
+
+    <div>If you did not sign up with us or believe you have received this email in error, please ignore it and your information will be deleted from our system.
+
+    Thank you for choosing our services, and please let us know if you have any questions or concerns.</div>
+
+    <div>Best regards,</div>
+    <div>The Project Complete</div>
+
+    <div><a href="${process.env.SERVER_URL}/unsubscribe">Click Here to Unsubscribe</a>
+    </div>`
 
     return html;
 }

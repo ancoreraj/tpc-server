@@ -17,7 +17,8 @@ router.get('/verify-account/:id', async (req, res) => {
             return res.status(500).json({ error: "Mongo Error" })
         }
     });
-    res.status(400).json({message: `Account Verified`})
+    
+    res.redirect(`${process.env.CLIENT_URL}/auth/login`);
 })
 
 router.post('/contact-us', async (req, res) => {

@@ -18,22 +18,10 @@ const sendEmail = async ({email, subject, htmlContent}) => {
             subject,
             htmlContent,
         });
+        console.log(data);
     }catch(err){
         console.log(err)
     }
-    // tranEmailApi
-    //     .sendTransacEmail({
-    //         sender,
-    //         to: [{email}],
-    //         subject,
-    //         htmlContent,
-    //     })
-    //     .then(data => {
-    //         console.log(data)
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //     })
 }
 
 module.exports = sendEmail
