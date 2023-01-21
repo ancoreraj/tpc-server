@@ -25,7 +25,7 @@ router.post('/contact-us', async (req, res) => {
 
     const emailOptions = {
         email : 'ankur.jar123@gmail.com',
-        subject: `Contact Us | The Complete Project`,
+        subject: `Contact Us | The Project Complete`,
         htmlContent: contactUsTemplate(req.body)
     }
 

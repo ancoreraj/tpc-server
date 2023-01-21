@@ -64,12 +64,13 @@ const loginController = async (req, res) => {
         if (passwordDoMatch && savedUser.isVerified) {
             const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
             return res.status(200).json({
+                check: true,
                 message: "User successfully signin",
                 user: savedUser,
                 token,  
             });
         } else {
-            return res.status(422).json({ error: "Invalid Email or password" });
+            return res.status(200).json({ check: false, msg: "Invalid Email and Password Combination." });
         }
 
     } catch (err) {

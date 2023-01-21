@@ -38,10 +38,14 @@ const orderPlacedUserTemplate = ({name, title, orderId, price}) => {
     const html = `
     <div>
         <h2>Congratulations ${name}, Your order is placed.</h2>
-        <h3><b>OrderId</b>: ${orderId}</h3>
-        <h3><b>Title</b>: ${title}</h3>
-        <h3><b>Price</b>: ${price}</h3>
-        <h3><b>Looking forward for more orders from you.</b></h3>
+        <ul>
+        <li><b>OrderId</b>: ${orderId}</li>
+        <li><b>Title</b>: ${title}</li>
+        <li><b>Price</b>: ${price}</li>
+        <div>You will recieve your purchase within 8 - 10 days of purchase.</div>
+        <div>For any query, write us at <b><i>${process.env.ADMIN_EMAIL}</i><b></div>
+        <div><b>Looking forward for more orders from you.</b></div>
+        </ul>
     </div>
     `
     return html;
@@ -50,19 +54,34 @@ const orderPlacedUserTemplate = ({name, title, orderId, price}) => {
 const orderRecievedTemplate = ({title, description, _id, fileUrl, category, price, name, number, address, pincode}) => {
     const html = `
     <div>
-        <h3><b>Title</b>: ${title}</h3>
-        <h3><b>Description</b>: ${description}</h3>
-        <h3><b>FileUrl</b>: ${fileUrl}</h3>
-        <h3><b>OrderId</b>: ${_id}</h3>
-        <h3><b>Category</b>: ${category}</h3>
-        <h3><b>Price</b>: ${price}</h3>
-        <h3><b>Name</b>: ${name}</h3>
-        <h3><b>Address</b>: ${address}</h3>
-        <h3><b>Pincode</b>: ${pincode}</h3>
-        <h3><b>Number</b>: ${number}</h3>
-        
+        <h3>Yay!! New Order Recieved.</h3>
+        <ul>
+        <li><b>Title</b>: ${title}</li>
+        <li><b>Description</b>: ${description}</li>
+        <li><b>FileUrl</b>: ${fileUrl}</li>
+        <li><b>OrderId</b>: ${_id}</li>
+        <li><b>Category</b>: ${category}</li>
+        <li><b>Price</b>: ${price}</li>
+        <li><b>Name</b>: ${name}</li>
+        <li><b>Address</b>: ${address}</li>
+        <li><b>Pincode</b>: ${pincode}</li>
+        <li><b>Number</b>: ${number}</li>
+        </ul>
     </div>
     `
+    return html;
+}
+
+const freelanceTemplate = ({name, category}) => {
+    const html = `
+        <div>
+            <h3>Congratulations, ${name},</h3>
+            <div>You are now added as a Partner for category <b><i>${category}</i></b>.</div>
+            <div>Best regards,</div>
+            <div>The Project Complete</div>
+        </div>
+    `
+
     return html;
 }
 
@@ -70,5 +89,6 @@ module.exports = {
     verifyAccountTemplate,
     contactUsTemplate,
     orderPlacedUserTemplate,
-    orderRecievedTemplate
+    orderRecievedTemplate,
+    freelanceTemplate
 }
