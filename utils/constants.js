@@ -14,4 +14,3 @@ const CATEGORY = [
 module.exports = {
     CATEGORY,
 }
-
