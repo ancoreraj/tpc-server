@@ -116,7 +116,7 @@ const resetPasswordController = async (req, res) => {
 
         const emailOptions = {
             email,
-            subject: `The Project Complete | Please Verify Your Email`,
+            subject: `The Project Complete | Reset Password`,
             htmlContent: resetPasswordTemplate(code)
         }
 
