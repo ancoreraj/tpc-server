@@ -37,6 +37,9 @@ const userSchema = new mongoose.Schema({
     },
     aadharCard: {
         type: String
+    },
+    code: {
+        type: String
     }
 },
     {

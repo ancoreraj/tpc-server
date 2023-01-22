@@ -85,10 +85,32 @@ const freelanceTemplate = ({name, category}) => {
     return html;
 }
 
+const resetPasswordTemplate = (code) => {
+    const html = `
+        <div>
+
+        <div>We have received a request to reset the password for your account. </div>
+        <div>If you did not make this request, please ignore this email.</div>
+
+        <div>Below is your reset code</div>
+        <h3><b>${code}</b></h3>
+        <div>Please note that the link will expire in 30 minutes.</div>
+
+        <div>If you have any issues or concerns, please don't hesitate to contact us at ${process.env.ADMIN_EMAIL}</div>
+
+        <div>Best regards,</div>
+        <div>The Project Complete</div>
+        </div>
+    `
+
+    return html;
+}
+
 module.exports = {
     verifyAccountTemplate,
     contactUsTemplate,
     orderPlacedUserTemplate,
     orderRecievedTemplate,
-    freelanceTemplate
+    freelanceTemplate,
+    resetPasswordTemplate,
 }

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/UserModel");
 const sendEmail = require("./../utils/email/sendInBlue")
-const { verifyAccountTemplate } = require("./../utils/email/templates")
+const { verifyAccountTemplate, resetPasswordTemplate } = require("./../utils/email/templates")
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -47,6 +47,16 @@ const registerController = async (req, res) => {
     }
 }
 
+const sendUser = (user) => {
+    const tempUser = {
+        email: user.name,
+        name: user.name,
+        isVerified: user.isVerified,
+        isFreelancer: user.isFreelancer,
+    }
+    return tempUser;
+}
+
 const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -66,8 +76,8 @@ const loginController = async (req, res) => {
             return res.status(200).json({
                 check: true,
                 message: "User successfully signin",
-                user: savedUser,
-                token,  
+                user: sendUser(savedUser),
+                token,
             });
         } else {
             return res.status(200).json({ check: false, msg: "Invalid Email and Password Combination." });
@@ -82,8 +92,72 @@ const getUserController = (req, res) => {
     return res.status(200).json(req.user);
 }
 
+const confirmationCode = () => {
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let token = '';
+    for (let i = 0; i < 5; i++) {
+        token += characters[Math.floor(Math.random() * characters.length)];
+    }
+    return token
+}
+
+const resetPasswordController = async (req, res) => {
+    const { email } = req.body;
+    try{
+        const savedUser = await UserModel.findOne({email});
+        if(!savedUser){
+            return res.status(200).json({ check: false, msg: "Email Not found"});
+        }
+
+        const code = confirmationCode();
+
+        savedUser.code = code;
+        await savedUser.save();
+
+        const emailOptions = {
+            email,
+            subject: `The Project Complete | Please Verify Your Email`,
+            htmlContent: resetPasswordTemplate(code)
+        }
+
+        await sendEmail(emailOptions);
+
+        return res.status(200).json({check: true, msg: 'Confirmation code sent'});
+
+    }catch(err){
+        res.status(500).json(err);
+    }
+}
+
+const resetController = async (req, res) => {
+    const { email, password, code } = req.body;
+    try{
+        const savedUser = await UserModel.findOne({email});
+        if(!savedUser){
+            return res.status(200).json({ check: false, msg: "Email Not found"});
+        }
+
+        if(savedUser.code !== code){
+            return res.status(200).json({ check: false, msg: "Wrong Confirmation Code"});
+        }
+
+        const salt = await bcrypt.genSalt(12);
+        const hashedpassword = await bcrypt.hash(password, salt);
+
+        savedUser.password = hashedpassword;
+        await savedUser.save();
+
+        return res.status(200).json({ check: true, msg: "Password Updated"});
+
+    }catch(err){
+        res.status(500).json(err);
+    }
+}
+
 module.exports = {
     registerController,
     loginController,
     getUserController,
+    resetPasswordController,
+    resetController,
 }
