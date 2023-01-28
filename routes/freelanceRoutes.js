@@ -9,7 +9,7 @@ const sendEmail = require("../utils/email/sendInBlue");
 const router = express.Router();
 
 router.post("/add-freelance", ensureAuth, async (req, res) => {
-    const {contactNo, category, name, upiId, aadharCard} = req.body;
+    const {contactNo, category, name, upiId, aadharCard, pincode, address, accountNo, ifscCode} = req.body;
     const {user} = req;
 
     let emailCategory;
@@ -24,8 +24,12 @@ router.post("/add-freelance", ensureAuth, async (req, res) => {
         user.name = name;
         user.contactNo = contactNo;
         user.category = category;
-        user.upiId = upiId;
+        user.upiId = upiId ? upiId : '';
         user.aadharCard = aadharCard;
+        user.pincode = pincode;
+        user.address = address;
+        user.accountNo = accountNo;
+        user.ifscCode = ifscCode;
 
         await user.save();
 

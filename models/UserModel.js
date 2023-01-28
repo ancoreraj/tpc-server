@@ -38,9 +38,21 @@ const userSchema = new mongoose.Schema({
     aadharCard: {
         type: String
     },
+    pincode: {
+        type: String
+    },
+    address: {
+        type: String
+    },
+    accountNo: {
+        type: String,
+    },
+    ifscCode: {
+        type: String,
+    },
     code: {
         type: String
-    }
+    }    
 },
     {
         timestamps: true,
