@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const UserModel = require("../models/UserModel");
+const OrderModel = require("../models/OrderModel");
 const sendEmail = require("./../utils/email/sendInBlue")
 const { verifyAccountTemplate, resetPasswordTemplate } = require("./../utils/email/templates")
 
@@ -154,10 +155,23 @@ const resetController = async (req, res) => {
     }
 }
 
+const profileController = async (req, res) => {
+    const { user } = req;
+    console.log(user);
+    try {
+        const orders = await OrderModel.find({ orderedBy: user._id}).sort({ createdAt: -1});
+        console.log(orders);
+        return res.status(200).json({user, orders});
+    }catch(err) {
+        res.status(500).json(err);
+    }
+}
+
 module.exports = {
     registerController,
     loginController,
     getUserController,
     resetPasswordController,
     resetController,
+    profileController,
 }

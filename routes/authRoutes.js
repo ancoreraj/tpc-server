@@ -5,7 +5,8 @@ const {
     loginController,
     getUserController,
     resetPasswordController,
-    resetController
+    resetController,
+    profileController
 } = require('../controllers/authController')
 
 const ensureAuth = require("../utils/requireLoginJwt");
@@ -21,5 +22,7 @@ router.get("/auth/me", ensureAuth, getUserController);
 router.post("/auth/reset-password", resetPasswordController);
 
 router.post("/auth/reset", resetController);
+
+router.get('/auth/profile', ensureAuth, profileController)
 
 module.exports = router;
