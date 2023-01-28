@@ -106,6 +106,21 @@ const resetPasswordTemplate = (code) => {
     return html;
 }
 
+const setFreelanceTemplate = ({title, description, fileUrl}) => {
+    const html = `
+    <div>
+        <h3>Yay!! You recieved a new Project request.</h3>
+        <ul>
+        <li><b>Title</b>: ${title}</li>
+        <li><b>Description</b>: ${description}</li>
+        <li><b>FileUrl</b>: ${fileUrl}</li>
+        </ul>
+    </div>
+    `
+    
+    return html;
+}
+
 module.exports = {
     verifyAccountTemplate,
     contactUsTemplate,
@@ -113,4 +128,5 @@ module.exports = {
     orderRecievedTemplate,
     freelanceTemplate,
     resetPasswordTemplate,
+    setFreelanceTemplate
 }

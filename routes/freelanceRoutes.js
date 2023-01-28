@@ -1,8 +1,9 @@
 const express = require("express");
 
 const UserModel = require('./../models/UserModel');
+const OrderModel = require('./../models/OrderModel');
 const ensureAuth = require("../utils/requireLoginJwt");
-const { freelanceTemplate } = require('./../utils/email/templates');
+const { freelanceTemplate, setFreelanceTemplate } = require('./../utils/email/templates');
 const { CATEGORY } = require('./../utils/constants');
 const sendEmail = require("../utils/email/sendInBlue");
 
@@ -50,6 +51,40 @@ router.get("/get-freelance", async (req, res) => {
     try{
         const freelancers = await UserModel.find({isFreelancer: true});
         res.status(200).json({freelancers});
+    }catch(err){
+        res.status(500).json(err);
+    }
+})
+
+router.post("/set-freelance", async (req, res) => {
+    let { orderId, category, email } = req.body;
+    try {
+        orderId = orderId.trim();
+        const getOrder = await OrderModel.findById(orderId);
+        if(!getOrder){
+            return res.status(200).json({check: false, msg: "Wrong Order Id"});
+        }
+
+        if(String(getOrder.category) !== String(category)){
+            return res.status(200).json({check: false, msg: "Order Category dosen't match with Partner User Category."});
+        }
+
+        const templateObj = {
+            title: getOrder.title,
+            description : getOrder.description,
+            fileUrl: getOrder.fileUrl
+        }
+
+        const emailOptions = {
+            email: email,
+            subject: `New Project Requirement Recieved`,
+            htmlContent: setFreelanceTemplate(templateObj),
+        }
+
+        await sendEmail(emailOptions);
+
+        return res.status(200).json({ check: true, msg: "Email Sent to the Partner"});
+
     }catch(err){
         res.status(500).json(err);
     }
