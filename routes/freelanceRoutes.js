@@ -24,7 +24,7 @@ router.post("/add-freelance", ensureAuth, async (req, res) => {
         user.isFreelancer = true;
         user.name = name;
         user.contactNo = contactNo;
-        user.category = category;
+        user.category = category.join(",");
         user.upiId = upiId ? upiId : '';
         user.aadharCard = aadharCard;
         user.pincode = pincode;
@@ -57,7 +57,7 @@ router.get("/get-freelance", async (req, res) => {
 })
 
 router.post("/set-freelance", async (req, res) => {
-    let { orderId, category, email } = req.body;
+    let { orderId, email } = req.body;
     try {
         orderId = orderId.trim();
         const getOrder = await OrderModel.findById(orderId);
@@ -65,9 +65,9 @@ router.post("/set-freelance", async (req, res) => {
             return res.status(200).json({check: false, msg: "Wrong Order Id"});
         }
 
-        if(String(getOrder.category) !== String(category)){
-            return res.status(200).json({check: false, msg: "Order Category dosen't match with Partner User Category."});
-        }
+        // if(String(getOrder.category) !== String(category)){
+        //     return res.status(200).json({check: false, msg: "Order Category dosen't match with Partner User Category."});
+        // }
 
         const templateObj = {
             title: getOrder.title,
