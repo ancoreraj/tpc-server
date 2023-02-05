@@ -14,6 +14,108 @@ const CATEGORY = [
     
 ]
 
+const FREELANCE_CATEGORY = [
+    {
+        id: "1",
+        val: "B.Com (H)",
+        price: "449",
+        
+    },
+    {
+        id: "2",
+        val: "B.Com (P)",
+        price: "449",
+        
+    },
+    {
+        id: "3",
+        val: "B.A (H)",
+        price: "449",
+        
+    },
+    {
+        id: "4",
+        val: "B.A (P)",
+        price: "449",
+        
+    },
+    {
+        id: "5",
+        val: "B.Sc",
+        price: "449"
+        
+    },
+    {
+        id: "6",
+        val: "B.B.A",
+        price: "449"
+        
+    },
+    {
+        id: "7",
+        val: "B.D.A",
+        price: "449"
+        
+    },
+    {
+        id: "8",
+        val: "M.C.A",
+        price: "999"
+        
+    },
+    {
+        id: "9",
+        val: "M.Com",
+        price: "449"
+        
+    },
+    {
+        id: "10",
+        val: "M.A",
+        price: "449"
+        
+    },
+    {
+        id: "11",
+        val: "M.Sc",
+        price: "449",
+        
+    },
+    {
+        id: "12",
+        val: "PG (Advance)",
+        price: "449"
+    },
+    {
+        id: "13",
+        val: "H.M (Hotel Management)",
+        price: "449"
+        
+    },
+    {
+        id: "14",
+        val: "LAW LLB",
+        price: "1999"
+        
+    },
+    {
+        id: "15",
+        val: "B.Tech",
+        price: "1249",
+    },
+    {
+        id: "16",
+        val: "B.Ed",
+        price: "1749",
+    },
+    {
+        id: "17",
+        val: "D.EL.ED",
+        price: "499"
+    }
+]
+
 module.exports = {
     CATEGORY,
+    FREELANCE_CATEGORY
 }

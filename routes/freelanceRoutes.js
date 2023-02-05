@@ -4,21 +4,30 @@ const UserModel = require('./../models/UserModel');
 const OrderModel = require('./../models/OrderModel');
 const ensureAuth = require("../utils/requireLoginJwt");
 const { freelanceTemplate, setFreelanceTemplate } = require('./../utils/email/templates');
-const { CATEGORY } = require('./../utils/constants');
+const { CATEGORY, FREELANCE_CATEGORY } = require('./../utils/constants');
 const sendEmail = require("../utils/email/sendInBlue");
 
 const router = express.Router();
+
+const getCategory = (category) => {
+    let categoryArr = [];
+    let userCategory = category.join(",");
+    userCategory = userCategory.split(",");
+    FREELANCE_CATEGORY.map((cat) => {
+        userCategory.map((id) => {
+            if(cat.id === id){
+                categoryArr.push(cat.val);
+            }
+        })
+    })
+    return categoryArr.join(", ");
+}
 
 router.post("/add-freelance", ensureAuth, async (req, res) => {
     const {contactNo, category, name, upiId, aadharCard, pincode, address, accountNo, ifscCode} = req.body;
     const {user} = req;
 
-    let emailCategory;
-    CATEGORY.map((item) => {
-        if(item.id === category){
-            emailCategory = item.val;
-        }
-    })
+    let emailCategory = getCategory(category);
 
     try{
         user.isFreelancer = true;
