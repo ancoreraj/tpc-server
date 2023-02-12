@@ -24,7 +24,7 @@ const getCategory = (category) => {
 }
 
 router.post("/add-freelance", ensureAuth, async (req, res) => {
-    const {contactNo, category, name, upiId, aadharCard, pincode, address, accountNo, ifscCode} = req.body;
+    const {contactNo, category, name, upiId, aadharCard, pincode, address, accountNo, accountName, ifscCode} = req.body;
     const {user} = req;
 
     let emailCategory = getCategory(category);
@@ -40,6 +40,7 @@ router.post("/add-freelance", ensureAuth, async (req, res) => {
         user.address = address;
         user.accountNo = accountNo;
         user.ifscCode = ifscCode;
+        user.accountName = accountName;
 
         await user.save();
 

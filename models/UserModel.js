@@ -44,6 +44,9 @@ const userSchema = new mongoose.Schema({
     address: {
         type: String
     },
+    accountName: {
+        type: String
+    },
     accountNo: {
         type: String,
     },

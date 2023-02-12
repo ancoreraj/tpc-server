@@ -112,6 +112,21 @@ const FREELANCE_CATEGORY = [
         id: "17",
         val: "D.EL.ED",
         price: "499"
+    },
+    {
+        id: "18",
+        val: "LKG to 3rd class Art & Craft",
+        price: "299"
+    },
+    {
+        id: "19",
+        val: "4th to 8th class all subjects",
+        price: "299"
+    },
+    {
+        id: "19",
+        val: "9th to 12th class all subjects for ICSE / CBSE",
+        price: "299"
     }
 ]
 
