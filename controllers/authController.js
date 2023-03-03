@@ -157,10 +157,8 @@ const resetController = async (req, res) => {
 
 const profileController = async (req, res) => {
     const { user } = req;
-    console.log(user);
     try {
         const orders = await OrderModel.find({ orderedBy: user._id}).sort({ createdAt: -1});
-        console.log(orders);
         return res.status(200).json({user, orders});
     }catch(err) {
         res.status(500).json(err);

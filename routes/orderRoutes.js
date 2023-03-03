@@ -6,7 +6,7 @@ const OrderModel = require("../models/OrderModel");
 const { instance } = require('./../utils/razorpay');
 const { CATEGORY } = require("./../utils/constants");
 const sendEmail = require("./../utils/email/sendInBlue")
-const { orderPlacedUserTemplate, orderRecievedTemplate } = require("./../utils/email/templates")
+const { orderPlacedUserTemplate, orderRecievedTemplate, cancelOrderTemplate } = require("./../utils/email/templates")
 
 const ensureAuth = require("../utils/requireLoginJwt");
 
@@ -84,6 +84,40 @@ router.post('/payment-verification', async (req, res) => {
         res.status(400).json({
             success: false,
         });
+    }
+});
+
+router.get('/cancel-order/:id', ensureAuth, async (req, res) => {
+    const { id } = req.params;
+    try{
+        const order = await OrderModel.findById(id).populate('orderedBy')
+
+        if(order?.isCanceled) {
+            return res.status(200).json({ check: false, msg : 'Your order is already canceled'});
+        }
+
+        const options = {
+            "amount": Number(order.price),
+            "currency": "INR",
+            "speed": "normal",
+            "speed_processed": 'normal',
+        }
+        const cancelOrder = await instance.payments.refund(order.razorpay_payment_id, options);
+
+        order.isCanceled = true;
+        await order.save();
+
+        const emailOptions = {
+            email: order.orderedBy.email,
+            subject: 'Order Canceled | The Project Complete',
+            htmlContent: cancelOrderTemplate(id, order.title, order.price)
+        }
+
+        await sendEmail(emailOptions);
+
+        res.status(200).json({ check: true });
+    }catch(err) {
+        res.status(500).json(err);
     }
 });
 

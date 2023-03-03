@@ -121,6 +121,22 @@ const setFreelanceTemplate = ({title, description, fileUrl}) => {
     return html;
 }
 
+const cancelOrderTemplate = (orderId, title, price) => {
+    const html = `
+    <div>
+        <h2>Your Order has now been canceled.</h2>
+        <ul>
+        <li><b>OrderId</b>: ${orderId}</li>
+        <li><b>Title</b>: ${title}</li>
+        <li><b>Price</b>: ${price}</li>
+        <div>You will recieve your refund within 8 - 10 days.</div>
+        <div>For any query, write us at <b><i>${process.env.ADMIN_EMAIL}</i><b></div>
+        </ul>
+    </div>
+    `
+    return html;
+}
+
 module.exports = {
     verifyAccountTemplate,
     contactUsTemplate,
@@ -128,5 +144,6 @@ module.exports = {
     orderRecievedTemplate,
     freelanceTemplate,
     resetPasswordTemplate,
-    setFreelanceTemplate
+    setFreelanceTemplate,
+    cancelOrderTemplate
 }

@@ -50,6 +50,10 @@ const orderSchema = new mongoose.Schema({
     },
     razorpay_payment_id: {
         type: String,
+    },
+    isCanceled : {
+        type: Boolean,
+        default : false,
     }
 },
     {
