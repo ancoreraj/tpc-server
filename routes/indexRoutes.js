@@ -24,7 +24,7 @@ router.get('/verify-account/:id', async (req, res) => {
 router.post('/contact-us', async (req, res) => {
 
     const emailOptions = {
-        email : 'ankur.jar123@gmail.com',
+        email : process.env.ADMIN_EMAIL,
         subject: `Contact Us | The Project Complete`,
         htmlContent: contactUsTemplate(req.body)
     }

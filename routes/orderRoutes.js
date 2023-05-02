@@ -70,7 +70,7 @@ router.post('/payment-verification', async (req, res) => {
         await sendEmail(emailOptionsUser);
 
         const emailOptionsAdmin = {
-            email: 'ankur.jar123@gmail.com',
+            email: process.env.ADMIN_EMAIL,
             subject: 'The Project Complete | New Order Recieved',
             htmlContent: orderRecievedTemplate(order)
         }
